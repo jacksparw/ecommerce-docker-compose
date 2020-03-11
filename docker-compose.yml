@@ -1,5 +1,22 @@
 version: "3.7"
 services:
+  
+  security-service:
+    image: springmicroservice360/security-service:0.0.1-SNAPSHOT
+    environment:
+      - CONFIG_SERVER_HOST=config-server
+      - EUREKA_SERVER_HOST_PEER1=eureka-peer1
+      - EUREKA_SERVER_HOST_PEER2=eureka-peer2
+    ports:
+      - "9898:9898"
+    restart: always
+    depends_on: # Start the depends_on first
+      - config-server
+      - eureka-peer1
+      - eureka-peer2
+    networks:
+      - ecommerce-network
+      
   eureka-peer1:
     image: springmicroservice360/eureka-server:0.0.1-SNAPSHOT
     container_name: eureka-peer1
