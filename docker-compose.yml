@@ -3,17 +3,25 @@ services:
   
   security-service:
     image: springmicroservice360/security-service:0.0.1-SNAPSHOT
+    deploy:
+      replicas: 3
     environment:
       - CONFIG_SERVER_HOST=config-server
       - EUREKA_SERVER_HOST_PEER1=eureka-peer1
       - EUREKA_SERVER_HOST_PEER2=eureka-peer2
-    ports:
-      - "9898:9898"
     restart: always
     depends_on: # Start the depends_on first
       - config-server
       - eureka-peer1
       - eureka-peer2
+      - redis
+    networks:
+      - ecommerce-network
+      
+  redis:
+    image: "redis"
+    ports:
+     - "6379:6379"
     networks:
       - ecommerce-network
       
@@ -51,10 +59,9 @@ services:
 
   config-server:
     image: springmicroservice360/config-server:0.0.1-SNAPSHOT
-    ports:
-      - "5000:5000"
+    deploy:
+      replicas: 2
     restart: always
-    container_name: config-server
     networks:
       - ecommerce-network
 
