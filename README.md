@@ -2,6 +2,7 @@
 Contains Docker Compose File
 
 Use below command to run.
+
 $ docker-compose --compatibility up -d 
 Creating network "ecommerce-docker-compose_ecommerce-network" with the default driver
 Creating ecommerce-docker-compose_config-server_1 ... done
