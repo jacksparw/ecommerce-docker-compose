@@ -61,6 +61,9 @@ services:
     image: springmicroservice360/config-server:0.0.1-SNAPSHOT
     deploy:
       replicas: 2
+    environment:
+      - EUREKA_SERVER_HOST_PEER1=eureka-peer1
+      - EUREKA_SERVER_HOST_PEER2=eureka-peer2
     restart: always
     networks:
       - ecommerce-network
