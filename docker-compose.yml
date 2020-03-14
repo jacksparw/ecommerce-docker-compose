@@ -1,6 +1,22 @@
 version: "3.7"
 services:
   
+  zuul-server:
+    image: springmicroservice360/zuul-server:0.0.1-SNAPSHOT
+    environment:
+      - CONFIG_SERVER_HOST=config-server
+      - EUREKA_SERVER_HOST_PEER1=eureka-peer1
+      - EUREKA_SERVER_HOST_PEER2=eureka-peer2
+    ports:
+      - "7000:8080"
+    restart: always
+    depends_on: # Start the depends_on first
+      - config-server
+      - eureka-peer1
+      - eureka-peer2
+    networks:
+      - ecommerce-network
+  
   security-service:
     image: springmicroservice360/security-service:0.0.1-SNAPSHOT
     deploy:
@@ -9,6 +25,7 @@ services:
       - CONFIG_SERVER_HOST=config-server
       - EUREKA_SERVER_HOST_PEER1=eureka-peer1
       - EUREKA_SERVER_HOST_PEER2=eureka-peer2
+      - REDIS_HOSTNAME=redis
     restart: always
     depends_on: # Start the depends_on first
       - config-server
